@@ -1,0 +1,13 @@
+---
+
+- name: install pkg
+  yum:
+    name: "{{item}}"
+    state: installed
+  with_items:
+    - httpd
+    - mod_ssl
+
+- name: service enable, start
+  service: "name=logstash state=started enabled=yes"
+
