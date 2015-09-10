@@ -9,5 +9,8 @@
     - mod_ssl
 
 - name: service enable, start
-  service: "name=logstash state=started enabled=yes"
+  service:
+    name: httpd
+    state: started
+    enabled: yes
 
