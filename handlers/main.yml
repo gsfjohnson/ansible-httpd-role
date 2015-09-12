@@ -1,5 +1,5 @@
 ---
-- name: service restart httpd
+- name: svc restart httpd
   service:
     name: httpd
     state: restarted
