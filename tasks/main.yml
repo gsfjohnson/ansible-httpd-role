@@ -8,9 +8,19 @@
     - httpd
     - mod_ssl
 
+- name: config conf.d
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/httpd/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - reverse-proxy_es.conf
+  notify: svc restart httpd
+
 - name: service enable, start
   service:
     name: httpd
     state: started
     enabled: yes
-
