@@ -8,15 +8,24 @@
     - httpd
     - mod_ssl
 
-- name: config conf.d
+- name: conf.d
   template:
     src: "{{ item }}.j2"
     dest: "/etc/httpd/conf.d/{{ item }}"
     owner: root
     group: root
     mode: 0644
-  with_items:
-    - reverse-proxy_es.conf
+  with_items: httpd_confd
+  notify: svc restart httpd
+
+- name: conf.d gists
+  get_url:
+    url: "https://gist.githubusercontent.com/{{ item.gist }}/raw"
+    dest: "/etc/httpd/conf.d/{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: httpd_confd_gists
   notify: svc restart httpd
 
 - name: service enable, start
