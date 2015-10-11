@@ -28,6 +28,16 @@
   with_items: httpd_confd_gists
   notify: svc restart httpd
 
+- name: reverse proxies
+  template:
+    src: "reverse-proxy.conf.j2"
+    dest: "/etc/httpd/conf.d/reverse-proxy.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: httpd_conf_reverseproxy
+  notify: svc restart httpd
+
 - name: service enable, start
   service:
     name: httpd
