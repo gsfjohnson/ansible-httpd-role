@@ -1,0 +1,37 @@
+---
+
+- name: conf.d
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/httpd/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: httpd_confd
+  notify: svc restart httpd
+
+- name: conf.d gists
+  get_url:
+    url: "https://gist.githubusercontent.com/{{ item.gist }}/raw"
+    dest: "/etc/httpd/conf.d/{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: httpd_confd_gists
+  notify: svc restart httpd
+
+- name: reverse proxies
+  template:
+    src: "reverse-proxy.conf.j2"
+    dest: "/etc/httpd/conf.d/reverse-proxy.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: httpd_conf_reverseproxy
+  notify: svc restart httpd
+
+- name: service enable, start
+  service:
+    name=httpd
+    state={{httpd_svc_state}}
+    enabled={{httpd_svc_enabled}}
