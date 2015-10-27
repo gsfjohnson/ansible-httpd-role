@@ -7,4 +7,12 @@ httpd_svc_state: started
 httpd_svc_enabled: yes
 
 httpd_pkg_state: installed
+
 httpd_ssl: False
+httpd_ssl_protocol:
+  - all
+  - "-SSLv2"
+  - "-SSLv3"
+httpd_ssl_cert_file: /etc/pki/tls/certs/localhost.crt
+httpd_ssl_key_file: /etc/pki/tls/private/localhost.key
+
