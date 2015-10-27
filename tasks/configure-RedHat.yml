@@ -38,6 +38,7 @@
     group: root
     mode: 0644
   notify: svc restart httpd
+  when: httpd_ssl is defined and http_ssl
 
 - name: service enable, start
   service:

@@ -92,6 +92,7 @@ SSLEngine on
 # connect.  Disable SSLv2 access by default:
 SSLProtocol{% for item in httpd_ssl_protocol %} {{item}}{% endfor %}
 
+
 #   SSL Cipher Suite:
 # List the ciphers that the client is permitted to negotiate.
 # See the mod_ssl documentation for a complete list.
