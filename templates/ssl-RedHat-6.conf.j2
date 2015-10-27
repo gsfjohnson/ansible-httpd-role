@@ -90,27 +90,32 @@ SSLEngine on
 #   SSL Protocol support:
 # List the enable protocol levels with which clients will be able to
 # connect.  Disable SSLv2 access by default:
-SSLProtocol{% for item in httpd_ssl_protocol %} {{item}}{% endfor %}
+SSLProtocol{% for item in httpd_SSLProtocol %} {{item}}{% endfor %}
 
 
 #   SSL Cipher Suite:
 # List the ciphers that the client is permitted to negotiate.
 # See the mod_ssl documentation for a complete list.
-SSLCipherSuite DEFAULT:!EXP:!SSLv2:!DES:!IDEA:!SEED:+3DES
+
+{% for item in httpd_SSLCipherSuite %}{% if item.name is defined and item.desc is defined %}# {{ "%-12s%s"|format(item.name~":",item.desc)}}
+{% elif item.desc is defined %}# {{item.desc}}
+{% endif %}{% endfor %}
+SSLCipherSuite {% for item in httpd_SSLCipherSuite %}{% if item.name is defined %}{{item.name}}{% if not loop.last %}:{% endif %}{% endif %}{% endfor %}
+
 
 #   Server Certificate:
 # Point SSLCertificateFile at a PEM encoded certificate.  If
 # the certificate is encrypted, then you will be prompted for a
 # pass phrase.  Note that a kill -HUP will prompt again.  A new
 # certificate can be generated using the genkey(1) command.
-SSLCertificateFile {{httpd_ssl_cert_file}}
+SSLCertificateFile {{httpd_SSLCertificateFile}}
 
 #   Server Private Key:
 #   If the key is not combined with the certificate, use this
 #   directive to point at the key file.  Keep in mind that if
 #   you've both a RSA and a DSA private key you can configure
 #   both in parallel (to also allow the use of DSA ciphers, etc.)
-SSLCertificateKeyFile {{httpd_ssl_key_file}}
+SSLCertificateKeyFile {{httpd_SSLCertificateKeyFile}}
 
 #   Server Certificate Chain:
 #   Point SSLCertificateChainFile at a file containing the
@@ -119,7 +124,9 @@ SSLCertificateKeyFile {{httpd_ssl_key_file}}
 #   the referenced file can be the same as SSLCertificateFile
 #   when the CA certificates are directly appended to the server
 #   certificate for convinience.
-#SSLCertificateChainFile /etc/pki/tls/certs/server-chain.crt
+{% if httpd_SSLCertificateChainFile is not defined %}#SSLCertificateChainFile /etc/pki/tls/certs/server-chain.crt{% endif %}
+{% if httpd_SSLCertificateChainFile is defined %}SSLCertificateChainFile {{httpd_SSLCertificateChainFile}}{% endif %}
+
 
 #   Certificate Authority (CA):
 #   Set the CA certificate verification path where to find CA

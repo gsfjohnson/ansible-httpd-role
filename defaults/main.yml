@@ -9,10 +9,18 @@ httpd_svc_enabled: yes
 httpd_pkg_state: installed
 
 httpd_ssl: False
-httpd_ssl_protocol:
+httpd_SSLProtocol:
   - all
   - "-SSLv2"
   - "-SSLv3"
-httpd_ssl_cert_file: /etc/pki/tls/certs/localhost.crt
-httpd_ssl_key_file: /etc/pki/tls/private/localhost.key
+httpd_SSLCipherSuite:
+  - name: DEFAULT
+  - name: "!EXP"
+  - name: "!SSLv2"
+  - name: "!DES"
+  - name: "!IDEA"
+  - name: "!SEED"
+  - name: "+3DES"
+httpd_SSLCertificateFile: /etc/pki/tls/certs/localhost.crt
+httpd_SSLCertificateKeyFile: /etc/pki/tls/private/localhost.key
 
