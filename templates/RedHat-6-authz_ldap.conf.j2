@@ -4,6 +4,9 @@
 #
 
 LoadModule authz_ldap_module modules/mod_authz_ldap.so
+{% for m in httpd_authz_ldap_modules %}
+LoadModule {{m.name}} {{m.file}}
+{% endfor %}
 
 <IfModule mod_authz_ldap.c>
 
