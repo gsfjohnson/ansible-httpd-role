@@ -32,7 +32,7 @@
 
 - name: conf.d ssl.conf
   template:
-    src: "ssl-{{ansible_os_family}}-{{ansible_distribution_major_version}}.conf.j2"
+    src: "{{ansible_os_family}}-{{ansible_distribution_major_version}}-ssl.conf.j2"
     dest: "/etc/httpd/conf.d/ssl.conf"
     owner: root
     group: root
