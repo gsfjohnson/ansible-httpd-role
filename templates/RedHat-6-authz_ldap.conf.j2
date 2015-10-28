@@ -1,0 +1,64 @@
+#
+# mod_authz_ldap can be used to implement access control and
+# authenticate users against an LDAP database.
+#
+
+LoadModule authz_ldap_module modules/mod_authz_ldap.so
+
+<IfModule mod_authz_ldap.c>
+
+{% for item in httpd_authz_ldap_location %}
+<Location {{item.path}}>
+{% if item.AuthzLDAPMethod is defined %}  AuthzLDAPMethod {{item.AuthzLDAPMethod}}
+{% endif %}{% if item.AuthzLDAPServer is defined %}  AuthzLDAPServer {{item.AuthzLDAPServer}}
+{% endif %}{% if item.AuthLDAPBindDN is defined %}  AuthLDAPBindDN "{{item.AuthLDAPBindDN}}"
+{% endif %}{% if item.AuthLDAPBindPassword is defined %}  AuthLDAPBindPassword "{{item.AuthLDAPBindPassword}}"
+{% endif %}{% if item.AuthLDAPURL is defined %}  AuthLDAPURL "{{item.AuthLDAPURL}}"
+{% endif %}{% if item.AuthType is defined %}  AuthType {{item.AuthType}}
+{% endif %}{% if item.AuthName is defined %}  AuthName "{{item.AuthName}}"
+{% endif %}{% if item.AuthBasicProvider is defined %}  AuthBasicProvider {{item.AuthBasicProvider}}
+{% endif %}{% if item.AuthUserFile is defined %}  AuthUserFile {{item.AuthUserFile}}
+{% endif %}{% for req in item.Requires %}
+{% if req.validuser is defined and req.validuser %}  Require valid-user
+{% endif %}{% if req.ldapgroup is defined %}  Require ldap-group {{req.ldapgroup}}
+{% endif %}
+{% endfor %}
+</Location>
+{% endfor %}
+
+#   <Location /private>
+#      AuthzLDAPMethod ldap
+#
+#      AuthzLDAPServer localhost
+#      AuthzLDAPUserBase ou=People,dc=example,dc=com
+#      AuthzLDAPUserKey uid
+#      AuthzLDAPUserScope base
+#
+#      AuthType Basic
+#      AuthName "ldap@example.com"
+#      require valid-user
+#
+#   </Location>
+
+# To authenticate users using a lookup in an LDAP database based
+# on the credentials of an authenticated client certificate, a
+# configuration like the following can be used:
+#
+#   <Location /private>
+#      SSLRequireSSL
+#      SSLVerifyClient require
+#      SSLCACertificateFile conf/rhts-bug191307-cacert.pem
+#
+#      AuthzLDAPMethod certificate
+#      AuthzLDAPMapMethod issuersubject
+#      AuthzLDAPServer localhost
+#      AuthzLDAPMapBase ou=AuthzLDAPCertmap,dc=example,dc=com
+#      AuthzLDAPMapScope onelevel
+#
+#      AuthName        AuthzLDAP
+#      AuthType        LDAP
+#      require valid-user
+#   </Location>
+
+</IfModule>
+

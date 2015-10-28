@@ -24,3 +24,5 @@ httpd_SSLCipherSuite:
 httpd_SSLCertificateFile: /etc/pki/tls/certs/localhost.crt
 httpd_SSLCertificateKeyFile: /etc/pki/tls/private/localhost.key
 
+httpd_authz_ldap: False
+httpd_authz_ldap_location: []

@@ -13,3 +13,8 @@
     state={{httpd_pkg_state}}
   when: httpd_ssl is defined and httpd_ssl
 
+- name: install mod_authz_ldap
+  yum:
+    name=mod_authz_ldap
+    state={{httpd_pkg_state}}
+  when: httpd_authz_ldap is defined and httpd_authz_ldap

@@ -40,6 +40,16 @@
   notify: svc restart httpd
   when: httpd_ssl is defined and httpd_ssl
 
+- name: conf.d authz_ldap.conf
+  template:
+    src: "{{ansible_os_family}}-{{ansible_distribution_major_version}}-authz_ldap.conf.j2"
+    dest: "/etc/httpd/conf.d/authz_ldap.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: svc restart httpd
+  when: httpd_authz_ldap is defined and httpd_authz_ldap
+
 - name: service enable, start
   service:
     name=httpd
