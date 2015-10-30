@@ -50,6 +50,16 @@
   notify: svc restart httpd
   when: httpd_authz_ldap is defined and httpd_authz_ldap
 
+- name: certificates and keys
+  template:
+    src: "cert.j2"
+    dest: "/etc/pki/tls/{{item.type}}/{{item.filename}}"
+    owner: "{{item.owner|default('root')}}"
+    group: "{{item.group|default('root')}}"
+    mode: "{{item.mode|default(0600)}}"
+  with_items: httpd_ssl_certs
+  notify: svc restart httpd
+
 - name: service enable, start
   service:
     name=httpd
