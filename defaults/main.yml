@@ -6,6 +6,7 @@ httpd_conf_reverseproxy:
 httpd_svc_state: started
 httpd_svc_enabled: yes
 
+httpd_pkg_name: httpd
 httpd_pkg_state: installed
 
 httpd_ssl: False

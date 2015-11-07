@@ -2,10 +2,8 @@
 
 - name: install pkg
   yum:
-    name={{item}}
+    name={{httpd_pkg_name}}
     state={{httpd_pkg_state}}
-  with_items:
-    - httpd
 
 - name: install mod_ssl
   yum:
