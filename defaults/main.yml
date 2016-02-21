@@ -40,3 +40,6 @@ httpd_SSLCertificateKeyFile: /etc/pki/tls/private/localhost.key
 
 httpd_authz_ldap: False
 httpd_authz_ldap_location: []
+
+httpd_blank_webroot_index: false
+

@@ -20,7 +20,7 @@
   with_items: httpd_confd_gists
   notify: svc restart httpd
 
-- name: reverse proxies
+- name: conf.d reverse-proxy.conf
   template:
     src: "reverse-proxy.conf.j2"
     dest: "/etc/httpd/conf.d/reverse-proxy.conf"
@@ -60,8 +60,13 @@
   with_items: httpd_ssl_certs
   notify: svc restart httpd
 
+- name: blank index.html in web root
+  file: dest=/var/www/html/index.html state=touch
+  when: httpd_blank_webroot_index
+
 - name: service enable, start
   service:
-    name=httpd
+    name={{httpd_pkg_name}}
     state={{httpd_svc_state}}
     enabled={{httpd_svc_enabled}}
+
