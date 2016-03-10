@@ -9,20 +9,24 @@ httpd_svc_enabled: yes
 httpd_pkg_name: httpd
 httpd_pkg_state: installed
 
+httpd_user: root
+httpd_group: root
+
 httpd_ssl: False
+httpd_ssl_mode: '0600'
 httpd_ssl_certs: []
 #  - filename: localhost.key
 #    type: private
-#    certificate:
-#      - "-----BEGIN RSA PRIVATE KEY-----"
-#      - 5vt9jZI9hc10Jl7TwIfF9jyAkeHan3M2ill10qtfQsyv0/cZn043ww==
-#      - "-----END RSA PRIVATE KEY-----"
+#    certificate: |
+#      -----BEGIN RSA PRIVATE KEY-----
+#      5vt9jZI9hc10Jl7TwIfF9jyAkeHan3M2ill10qtfQsyv0/cZn043ww==
+#      -----END RSA PRIVATE KEY-----
 #  - filename: localhost.crt
 #    type: certs
-#    certificate:
-#      - "-----BEGIN CERTIFICATE-----"
-#      - 5vt9jZI9hc10Jl7TwIfF9jyAkeHan3M2ill10qtfQsyv0/cZn043ww==
-#      - "-----END CERTIFICATE-----"
+#    certificate: |
+#      -----BEGIN CERTIFICATE-----
+#      5vt9jZI9hc10Jl7TwIfF9jyAkeHan3M2ill10qtfQsyv0/cZn043ww==
+#      -----END CERTIFICATE-----
 httpd_SSLProtocol:
   - all
   - "-SSLv2"

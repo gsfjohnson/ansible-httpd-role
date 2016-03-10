@@ -51,12 +51,12 @@
   when: httpd_authz_ldap is defined and httpd_authz_ldap
 
 - name: certificates and keys
-  template:
-    src: "cert.j2"
+  copy:
+    content: "{{item.certificate}}"
     dest: "/etc/pki/tls/{{item.type}}/{{item.filename}}"
-    owner: "{{item.owner|default('root')}}"
-    group: "{{item.group|default('root')}}"
-    mode: "{{item.mode|default(0600)}}"
+    owner: "{{item.owner|default(httpd_user)}}"
+    group: "{{item.group|default(httpd_group)}}"
+    mode: "{{item.mode|default(httpd_ssl_mode)}}"
   with_items: httpd_ssl_certs
   notify: svc restart httpd
 
