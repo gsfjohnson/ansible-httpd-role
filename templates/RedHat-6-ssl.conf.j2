@@ -97,7 +97,9 @@ SSLProtocol{% for item in httpd_SSLProtocol %} {{item}}{% endfor %}
 # List the ciphers that the client is permitted to negotiate.
 # See the mod_ssl documentation for a complete list.
 
-{% for item in httpd_SSLCipherSuite %}{% if item.name is defined and item.desc is defined %}# {{ "%-12s%s"|format(item.name~":",item.desc)}}
+{% for item in httpd_SSLCipherSuite %}
+{% if item.name is defined and item.desc is defined %}# {{ "%-12s%s"|format(item.name~":",item.desc)}}
+{% elif item.descindent is defined %}# {{ "%-12s%s"|format("",item.descindent)}}
 {% elif item.desc is defined %}# {{item.desc}}
 {% endif %}{% endfor %}
 SSLCipherSuite {% for item in httpd_SSLCipherSuite %}{% if item.name is defined %}{{item.name}}{% if not loop.last %}:{% endif %}{% endif %}{% endfor %}
