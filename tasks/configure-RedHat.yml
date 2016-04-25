@@ -61,15 +61,15 @@
   when: item.type is defined and item.filename is defined and item.content is defined and item.src is not defined
   notify: svc restart httpd
 
-- name: certificate src
+- name: certificate file
   copy:
-    src: "{{item.src}}"
+    src: "{{item.file}}"
     dest: "/etc/pki/tls/{{item.type}}/{{item.filename}}"
     owner: "{{item.owner|default(httpd_user)}}"
     group: "{{item.group|default(httpd_group)}}"
     mode: "{{item.mode|default(httpd_ssl_mode)}}"
   with_items: "{{httpd_ssl_certs}}"
-  when: item.type is defined and item.filename is defined and item.src is defined and item.content is not defined
+  when: item.type is defined and item.filename is defined and item.file is defined and item.content is not defined
   notify: svc restart httpd
 
 - name: blank index.html in web root
