@@ -7,7 +7,7 @@
     owner: root
     group: root
     mode: 0644
-  with_items: httpd_confd
+  with_items: "{{httpd_confd}}"
   notify: svc restart httpd
 
 - name: conf.d gists
@@ -17,7 +17,7 @@
     owner: root
     group: root
     mode: 0644
-  with_items: httpd_confd_gists
+  with_items: "{{httpd_confd_gists}}"
   notify: svc restart httpd
 
 - name: conf.d reverse-proxy.conf
@@ -50,14 +50,26 @@
   notify: svc restart httpd
   when: httpd_authz_ldap is defined and httpd_authz_ldap
 
-- name: certificates and keys
+- name: certificate content
   copy:
-    content: "{{item.certificate}}"
+    content: "{{item.content}}"
     dest: "/etc/pki/tls/{{item.type}}/{{item.filename}}"
     owner: "{{item.owner|default(httpd_user)}}"
     group: "{{item.group|default(httpd_group)}}"
     mode: "{{item.mode|default(httpd_ssl_mode)}}"
-  with_items: httpd_ssl_certs
+  with_items: "{{httpd_ssl_certs}}"
+  when: item.type is defined and item.filename is defined and item.content is defined and item.src is not defined
+  notify: svc restart httpd
+
+- name: certificate src
+  copy:
+    src: "{{item.src}}"
+    dest: "/etc/pki/tls/{{item.type}}/{{item.filename}}"
+    owner: "{{item.owner|default(httpd_user)}}"
+    group: "{{item.group|default(httpd_group)}}"
+    mode: "{{item.mode|default(httpd_ssl_mode)}}"
+  with_items: "{{httpd_ssl_certs}}"
+  when: item.type is defined and item.filename is defined and item.src is defined and item.content is not defined
   notify: svc restart httpd
 
 - name: blank index.html in web root
