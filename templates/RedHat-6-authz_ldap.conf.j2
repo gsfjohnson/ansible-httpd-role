@@ -24,6 +24,7 @@ LoadModule {{m.name}} {{m.file}}
 {% endif %}{% for req in item.Requires %}
 {% if req.validuser is defined and req.validuser %}  Require valid-user
 {% endif %}{% if req.ldapgroup is defined %}  Require ldap-group {{req.ldapgroup}}
+{% endif %}{% if req.ldapdn is defined %}  Require ldap-dn {{req.ldapdn}}
 {% endif %}
 {% endfor %}
 </Location>
