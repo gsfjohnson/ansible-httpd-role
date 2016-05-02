@@ -31,7 +31,6 @@ httpd_SSLProtocol:
   - all
   - "-SSLv2"
   - "-SSLv3"
-  - "-TLSv1"
 httpd_SSLCipherSuite:
   - name: DEFAULT
   - name: "!EXP"
